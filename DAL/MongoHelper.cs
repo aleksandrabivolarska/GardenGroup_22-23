@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MongoDB.Driver;
+using Model;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 
 namespace DAL
 {
@@ -21,10 +24,12 @@ namespace DAL
             return _helper;
         }
 
-        public List<MongoDB.Bson.BsonDocument> getAllDbs()
+        public List<DatabaseModel> getAllDbs()
         {
-            List<MongoDB.Bson.BsonDocument> db = _client.ListDatabases().ToList();
-            return db;
+            List<DatabaseModel> dbs = new List<DatabaseModel>();
+            foreach (BsonDocument db in _client.ListDatabases().ToList())
+                dbs.Add(BsonSerializer.Deserialize<DatabaseModel>(db));
+            return dbs;
         }
 
     }

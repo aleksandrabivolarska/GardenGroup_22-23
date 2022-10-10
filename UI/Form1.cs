@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DAL;
 using MongoDB.Driver;
+using Model;
+using Logic;
 
 namespace UI
 {
@@ -23,9 +25,9 @@ namespace UI
 
         void Start()
         {
-            MongoHelper mongodb = MongoHelper.getInstance();
-            var dbs = mongodb.getAllDbs();
-            dbs.ForEach(d => listBox1.Items.Add(d));
+            Databases dbs = new Databases();
+            foreach (var db in dbs.Get_All_Databases())
+                listBox1.Items.Add(db.name);
         }
     }
 }
